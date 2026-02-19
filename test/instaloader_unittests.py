@@ -2,10 +2,16 @@
 
 import os
 import shutil
+import sys
 import tempfile
 import unittest
 from itertools import islice
 from typing import Optional
+
+# Allow running this file directly via absolute path.
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 import instaloader
 
