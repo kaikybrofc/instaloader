@@ -909,10 +909,15 @@ class Profile:
         :param username: Username
         :raises: :class:`ProfileNotExistsException`
         """
-        for profile in TopSearchResults(context, username).get_profiles():
-            if profile.username.lower() == username.lower():
-                profile._obtain_metadata()
-                return profile
+        try:
+            for profile in TopSearchResults(context, username).get_profiles():
+                if profile.username.lower() == username.lower():
+                    profile._obtain_metadata()
+                    return profile
+        except (ConnectionException, AbortDownloadException):
+            # Instagram can temporarily block web/search/topsearch; fall through
+            # to the doc_id-based lookup path below.
+            pass
 
         variables = {
             "data": {
